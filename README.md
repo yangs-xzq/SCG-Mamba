@@ -15,8 +15,7 @@ The following environment was collected from the `mamba_clone` Conda environment
 | Python build compiler | GCC 11.2.0 |
 | System GCC/G++ | 9.4.0 |
 | CUDA Toolkit (`nvcc`) | 11.8, V11.8.89 |
-| NVIDIA driver | TODO: collect on the GPU training node |
-| GPU | TODO: confirm on the GPU training node |
+
 
 The environment report was collected in a session where the NVIDIA driver was not visible: `torch.cuda.is_available()` returned `False`, and `nvidia-smi` could not communicate with the driver. The GPU model and driver version must therefore be collected again on the node/session actually used for training.
 

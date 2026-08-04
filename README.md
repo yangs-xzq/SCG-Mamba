@@ -35,6 +35,7 @@ SCG-Mamba is a multimodal classification framework for hyperspectral imagery (HS
 |---|---|
 | PyTorch | 2.3.1+cu118 |
 | TorchVision | 0.18.1+cu118 |
+| TorchAudio | 2.3.1+cu118 |
 | PyTorch CUDA runtime | 11.8 |
 | cuDNN | 8.7.0 |
 | PyTorch CXX11 ABI | False |
@@ -50,6 +51,14 @@ SCG-Mamba is a multimodal classification framework for hyperspectral imagery (HS
 | tqdm | 4.67.3 |
 | einops | 0.8.2 |
 | timm | 1.0.25 |
+
+## Mamba dependencies
+
+| Package | Version |
+|---|---|
+| causal-conv1d | 1.4.0 |
+| mamba-ssm | 2.2.2 |
+| transformers | 4.43.3 |
 
 ## Selective-scan build dependencies
 
@@ -87,11 +96,32 @@ Create and activate the Conda environment:
 ```bash
 conda create -n scg-mamba python=3.10.19 -y
 conda activate scg-mamba
+```
+
+Install the required Python packages:
+
+```bash
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-> **Environment troubleshooting:** Configuring a Mamba-related environment may involve issues such as network timeouts, incompatible PyTorch and CUDA versions, missing CUDA compiler components, or CUDA extension compilation failures. For general troubleshooting and offline package installation strategies, users may refer to this [Mamba environment setup guide](https://blog.csdn.net/qq_45645368/article/details/141031972). 
+Install the CUDA 11.8 compiler:
+
+```bash
+conda install -c "nvidia/label/cuda-11.8.0" cuda-nvcc=11.8.89
+```
+
+Install the Mamba-related dependencies:
+
+```bash
+python -m pip install torchaudio==2.3.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+python -m pip install causal-conv1d==1.4.0 --no-build-isolation
+python -m pip install mamba-ssm==2.2.2 --no-build-isolation
+python -m pip install transformers==4.43.3
+```
+
+> **Environment troubleshooting:** Configuring a Mamba-related environment may involve issues such as network timeouts, incompatible PyTorch and CUDA versions, missing CUDA compiler components, or CUDA extension compilation failures. For general troubleshooting and offline package installation strategies, users may refer to this [Mamba environment setup guide](https://blog.csdn.net/qq_45645368/article/details/141031972).
+
 The included `kernels/selective_scan/setup.py` is already configured with:
 
 ```python
@@ -121,7 +151,70 @@ If the command prints the path of a `selective_scan_cuda_core` `.so` file withou
 Then run the Houston2013 training script:
 
 ```bash
-python train_Houston2013_lite_m_clean_keep_gate2_basc_tail3_a005_seed42_aux060.py
+python train.py
+```## Installation
+
+Create and activate the Conda environment:
+
+```bash
+conda create -n scg-mamba python=3.10.19 -y
+conda activate scg-mamba
+```
+
+Install the required Python packages:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Install the CUDA 11.8 compiler:
+
+```bash
+conda install -c "nvidia/label/cuda-11.8.0" cuda-nvcc=11.8.89
+```
+
+Install the Mamba-related dependencies:
+
+```bash
+python -m pip install torchaudio==2.3.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+python -m pip install causal-conv1d==1.4.0 --no-build-isolation
+python -m pip install mamba-ssm==2.2.2 --no-build-isolation
+python -m pip install transformers==4.43.3
+```
+
+> **Environment troubleshooting:** Configuring a Mamba-related environment may involve issues such as network timeouts, incompatible PyTorch and CUDA versions, missing CUDA compiler components, or CUDA extension compilation failures. For general troubleshooting and offline package installation strategies, users may refer to this [Mamba environment setup guide](https://blog.csdn.net/qq_45645368/article/details/141031972).
+
+The included `kernels/selective_scan/setup.py` is already configured with:
+
+```python
+MODES = ["core"]
+```
+
+Therefore, no manual modification of `setup.py` is required.
+
+Compile and install the Visual Mamba selective-scan operator using the source code included in this repository:
+
+```bash
+cd kernels/selective_scan
+python -m pip install --no-build-isolation --no-deps .
+cd ../..
+```
+
+The extension must be compiled in the same active Python, PyTorch, and CUDA environment that will be used to run SCG-Mamba. Do not directly reuse a precompiled `.so` file from another environment.
+
+Verify the installed backend. PyTorch must be imported first so that its shared libraries are loaded:
+
+```bash
+python -c "import torch; import selective_scan_cuda_core; print(selective_scan_cuda_core.__file__)"
+```
+
+If the command prints the path of a `selective_scan_cuda_core` `.so` file without reporting an error, the operator has been installed successfully.
+
+Then run the Houston2013 training script:
+
+```bash
+python train.py
 ```
 
 

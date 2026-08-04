@@ -50,27 +50,30 @@ The following environment was collected from the `mamba_clone` Conda environment
 | setuptools | 80.10.2 |
 | wheel | 0.46.3 |
 
-The following CUDA extensions were available in the original environment:
+## Visual Mamba selective-scan backend
+
+The standard `mamba-ssm` package primarily provides the one-dimensional sequence Mamba implementation. SCG-Mamba is based on the two-dimensional visual selective-scan mechanism used by Visual Mamba; therefore, installing `mamba-ssm` alone is not sufficient to reproduce the backend used in this project.
+
+SCG-Mamba uses the VMamba-style `selective_scan_cuda_core` extension. The CUDA source code required for compilation is included in:
 
 ```text
-selective_scan_cuda_core
-selective_scan_cuda_oflex
-selective_scan_cuda
+kernels/selective_scan/
 ```
 
-SCG-Mamba uses `forward_type="v2"`. Its backend wrapper selects implementations in the following order:
+The selective-scan implementation included in this repository is derived from the original [MzeroMiko/VMamba](https://github.com/MzeroMiko/VMamba) repository. Please refer to the original repository for the upstream implementation and additional information.
+
+The reported experiments use:
 
 ```text
-selective_scan_cuda_core
-    -> selective_scan_cuda_oflex
-    -> selective_scan_cuda
+forward_type="v2"
+backend=selective_scan_cuda_core
 ```
 
-Because `selective_scan_cuda_core` was available, it was the backend used for the reported experiments.
+The precompiled `.so` file is not included because CUDA extensions depend on the target operating system, Python, PyTorch, CUDA Toolkit, and GPU architecture. Users should compile the extension locally in their own environment.
 
 ## Installation
 
-Create and activate the environment:
+Create and activate the Conda environment:
 
 ```bash
 conda create -n scg-mamba python=3.10.19 -y
@@ -79,19 +82,21 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Before compiling the reported selective-scan backend, verify that `kernels/selective_scan/setup.py` contains:
+Before compilation, confirm that `kernels/selective_scan/setup.py` contains:
 
 ```python
 MODES = ["core"]
 ```
 
-Compile and install the extension using the active PyTorch/CUDA environment:
+Compile and install the Visual Mamba selective-scan operator using the source code included in this repository:
 
 ```bash
 cd kernels/selective_scan
 python -m pip install --no-build-isolation --no-deps .
 cd ../..
 ```
+
+The extension must be compiled in the same active PyTorch and CUDA environment that will be used to run SCG-Mamba.
 
 Verify the installed backend. PyTorch must be imported first so that its shared libraries are loaded:
 

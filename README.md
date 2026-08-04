@@ -1,4 +1,4 @@
-[ENVIRONMENT_SCG_MAMBA.md](https://github.com/user-attachments/files/30686698/ENVIRONMENT_SCG_MAMBA.md)
+
 # SCG-Mamba Environment
 
 The following environment was collected from the `mamba_clone` Conda environment used for SCG-Mamba. The reported experiments use the VMamba `selective_scan_cuda_core` backend.

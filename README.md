@@ -1,6 +1,16 @@
 
-# SCG-Mamba Environment
+# SCG-Mamba
 
+<p align="center">
+  <img src="assets/scg_mamba_framework.png"
+       alt="Overall architecture of SCG-Mamba"
+       width="95%">
+</p>
+
+<p align="center">
+  <em>Figure 1. Overall architecture of the proposed SCG-Mamba.</em>
+</p>
+SCG-Mamba is a multimodal classification framework for hyperspectral imagery (HSI) and LiDAR data.
 The following environment was collected from the `mamba_clone` Conda environment used for SCG-Mamba. The reported experiments use the VMamba `selective_scan_cuda_core` backend.
 
 ## Platform

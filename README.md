@@ -123,6 +123,8 @@ The Houston2013 dataset is not stored directly in this repository. The dataset f
 - Download: [Baidu Netdisk](https://pan.baidu.com/s/1mp-SqFQYR6AuO1O6YdJN3A?pwd=3wf6)
 - Extraction code: `3wf6`
 
-After downloading, extract the dataset and organize the files according to the directory structure shown below. The dataset is provided for academic research purposes only. Please comply with its applicable terms of use.
+After downloading, please modify the dataset file location in the code by yourself.
 
+## Contact
 
+If you have any questions regarding the code or experiments, please feel free to contact us at [vo1cee@163.com](mailto:vo1cee@163.com).

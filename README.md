@@ -116,16 +116,13 @@ python train_Houston2013_lite_m_clean_keep_gate2_basc_tail3_a005_seed42_aux060.p
 ```
 
 
-## Optional packages
+## Dataset
+The Houston2013 dataset is not stored directly in this repository. The dataset files used in our experiments can be downloaded from the following link:
 
-`mamba-ssm==2.2.2` and `transformers==4.43.3` were present in the collected environment, but they are not required when `selective_scan_cuda_core` is compiled and available. They are therefore omitted from the default requirements.
+- Dataset: Houston2013
+- Download: [Baidu Netdisk](https://pan.baidu.com/s/1mp-SqFQYR6AuO1O6YdJN3A?pwd=3wf6)
+- Extraction code: `3wf6`
 
-The collected environment also contained damaged pandas package metadata, which caused `import mamba_ssm` to fail through an optional Transformers/pandas version check. Pandas is not imported by the SCG-Mamba training pipeline and is not a required dependency.
+After downloading, extract the dataset and organize the files according to the directory structure shown below. The dataset is provided for academic research purposes only. Please comply with its applicable terms of use.
 
-## Reproducibility notes
 
-- Do not commit compiled `.so` files, `build/`, or `*.egg-info/` directories.
-- Compile `selective_scan_cuda_core` on the target Linux/PyTorch/CUDA environment.
-- Record the GPU model and NVIDIA driver from the actual training session.
-- Keep the fixed `TRAIN_GT.mat` and `TEST_GT.mat` split files unchanged.
-- The Houston2013 patches are cropped online from the full HSI and LiDAR scenes; pre-generated patch files are not used.

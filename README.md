@@ -70,7 +70,6 @@ backend=selective_scan_cuda_core
 ```
 
 The precompiled `.so` file is not included because CUDA extensions depend on the target operating system, Python, PyTorch, CUDA Toolkit, and GPU architecture. Users should compile the extension locally in their own environment.
-
 ## Installation
 
 Create and activate the Conda environment:
@@ -82,11 +81,15 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Before compilation, confirm that `kernels/selective_scan/setup.py` contains:
+> **Environment troubleshooting:** Configuring a Mamba-related environment may involve issues such as network timeouts, incompatible PyTorch and CUDA versions, missing CUDA compiler components, or CUDA extension compilation failures. For general troubleshooting and offline package installation strategies, users may refer to this [Mamba environment setup guide](https://blog.csdn.net/qq_45645368/article/details/141031972). This guide is provided only as an additional reference; the package versions specified in `requirements.txt` and `ENVIRONMENT_SCG_MAMBA.md` should take precedence for reproducing SCG-Mamba.
+
+The included `kernels/selective_scan/setup.py` is already configured with:
 
 ```python
 MODES = ["core"]
 ```
+
+Therefore, no manual modification of `setup.py` is required.
 
 Compile and install the Visual Mamba selective-scan operator using the source code included in this repository:
 
@@ -96,7 +99,7 @@ python -m pip install --no-build-isolation --no-deps .
 cd ../..
 ```
 
-The extension must be compiled in the same active PyTorch and CUDA environment that will be used to run SCG-Mamba.
+The extension must be compiled in the same active Python, PyTorch, and CUDA environment that will be used to run SCG-Mamba. Do not directly reuse a precompiled `.so` file from another environment.
 
 Verify the installed backend. PyTorch must be imported first so that its shared libraries are loaded:
 
@@ -104,11 +107,14 @@ Verify the installed backend. PyTorch must be imported first so that its shared 
 python -c "import torch; import selective_scan_cuda_core; print(selective_scan_cuda_core.__file__)"
 ```
 
+If the command prints the path of a `selective_scan_cuda_core` `.so` file without reporting an error, the operator has been installed successfully.
+
 Then run the Houston2013 training script:
 
 ```bash
 python train_Houston2013_lite_m_clean_keep_gate2_basc_tail3_a005_seed42_aux060.py
 ```
+
 
 ## Optional packages
 

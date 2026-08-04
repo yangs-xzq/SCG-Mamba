@@ -81,8 +81,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-> **Environment troubleshooting:** Configuring a Mamba-related environment may involve issues such as network timeouts, incompatible PyTorch and CUDA versions, missing CUDA compiler components, or CUDA extension compilation failures. For general troubleshooting and offline package installation strategies, users may refer to this [Mamba environment setup guide](https://blog.csdn.net/qq_45645368/article/details/141031972). This guide is provided only as an additional reference; the package versions specified in `requirements.txt` and `ENVIRONMENT_SCG_MAMBA.md` should take precedence for reproducing SCG-Mamba.
-
+> **Environment troubleshooting:** Configuring a Mamba-related environment may involve issues such as network timeouts, incompatible PyTorch and CUDA versions, missing CUDA compiler components, or CUDA extension compilation failures. For general troubleshooting and offline package installation strategies, users may refer to this [Mamba environment setup guide](https://blog.csdn.net/qq_45645368/article/details/141031972). 
 The included `kernels/selective_scan/setup.py` is already configured with:
 
 ```python
